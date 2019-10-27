@@ -1,6 +1,8 @@
 #include "application.h"
 #include "sdldisplay.h"
 #include "events/event_controller.h"
+#include "texture_manager.h"
+
 
 extern std::shared_ptr<Application> SP_APP;
 
@@ -20,6 +22,9 @@ bool Application::init() {
 
     EventController::getInstance()->requestEvent(Event::EventType::WINDOW_CLOSE, SP_APP);
 
+    // Load a texture
+    TextureManager::getInstance()->load("assets/player.png", "player", mDisplay->getRenderer());
+
     return true;
 }
 
@@ -29,8 +34,13 @@ void Application::update() {
 
 void Application::refresh() {
 
+    // clear the screen
     mDisplay->clear();
 
+
+    TextureManager::getInstance()->draw("player", 0, 0, 256,256,mDisplay->getRenderer());
+
+    // refresh and display!
     mDisplay->refresh();
 }
 

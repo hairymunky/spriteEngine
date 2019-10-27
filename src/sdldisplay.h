@@ -22,6 +22,7 @@ public:
     std::string name() override { return "SDLDisplay"; }
 
     SDL_Window *getWindow() const { return mpWindow; }
+    SDL_Renderer *getRenderer() const { return mpRenderer; }
 
 private:
     SDL_Window *mpWindow;
