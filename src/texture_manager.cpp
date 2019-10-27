@@ -15,10 +15,6 @@ TextureManager *TextureManager::getInstance() {
     return spInstance;
 }
 
-// void TextureManager::destroy() {
-//     if (spInstance)
-//         delete spInstance;
-// }
 
 TextureManager::TextureManager() {
 
