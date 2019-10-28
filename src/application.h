@@ -4,6 +4,7 @@
 class SDLDisplay;
 
 #include "events/event_controller.h"
+#include "ECS/ECS.h"
 
 class Application : public Handler
 {
@@ -28,10 +29,6 @@ public:
 
 private:
 
-    //static std::shared_ptr<Application> spInstance;
-    
-    
-
     void update();
 
     bool init();
@@ -43,6 +40,7 @@ private:
     bool mbRunning { false };
 
     SDLDisplay* mDisplay;
+    Manager mManager;
 };
 
 #endif // APPLICATION_H

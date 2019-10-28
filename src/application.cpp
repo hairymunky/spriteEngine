@@ -2,11 +2,15 @@
 #include "sdldisplay.h"
 #include "events/event_controller.h"
 #include "texture_manager.h"
+#include "ECS/ECS.h"
+#include "ECS/components.h"
 
 
 extern std::shared_ptr<Application> SP_APP;
+Manager manager;
+auto& newPlayer(manager.addEntity());
 
-Application::Application() {}
+Application::Application()  {}
 
 
 Application::~Application() {}
@@ -22,14 +26,18 @@ bool Application::init() {
 
     EventController::getInstance()->requestEvent(Event::EventType::WINDOW_CLOSE, SP_APP);
 
-    // Load a texture
-    TextureManager::getInstance()->load("assets/player.png", "player", mDisplay->getRenderer());
 
+    // Testing ECS
+    newPlayer.addComponent<TransformComponent>();
+    newPlayer.addComponent<SpriteComponent>("assets/player.png", "player" );
+    
     return true;
 }
 
 void Application::update() {
 
+    manager.update();
+    
 }
 
 void Application::refresh() {
@@ -37,8 +45,7 @@ void Application::refresh() {
     // clear the screen
     mDisplay->clear();
 
-
-    TextureManager::getInstance()->draw("player", 0, 0, 256,256,mDisplay->getRenderer());
+    manager.draw();
 
     // refresh and display!
     mDisplay->refresh();
