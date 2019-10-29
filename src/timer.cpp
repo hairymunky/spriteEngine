@@ -2,8 +2,8 @@
 
 Timer::Timer() {
 
-    mCurrentTime = 0;
-    mLastTime = 0;
+    mFrameStart = 0;
+    mDeltaTime = 0.f;
 }
 
 Timer::~Timer() {}
@@ -11,17 +11,13 @@ Timer::~Timer() {}
 
 void Timer::reset() {
 
-    getCurrent();
+    mFrameStart = SDL_GetPerformanceCounter();
 }
-
-Uint64 Timer::getCurrent() {
-    mLastTime = mCurrentTime;
-    mCurrentTime = SDL_GetPerformanceCounter();
-    return mCurrentTime;
-}
-
 
 double Timer::deltaTime() {
 
-    return ((mCurrentTime - mLastTime) * 1000/(double)SDL_GetPerformanceFrequency());
+    Uint64 end = SDL_GetPerformanceCounter();
+
+    mDeltaTime = ((end - mFrameStart)*1000/(double)SDL_GetPerformanceFrequency());
+    return mDeltaTime;
 }

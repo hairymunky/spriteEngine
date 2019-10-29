@@ -34,9 +34,9 @@ bool Application::init() {
     return true;
 }
 
-void Application::update() {
+void Application::update(float dt) {
 
-    manager.update();
+    manager.update(dt);
     
 }
 
@@ -52,7 +52,9 @@ void Application::refresh() {
 }
 
 // TODO: Remove this!
-float FPS = 1.f/60.f;
+float FPS = 60.f;
+float FrameTime = 1000/FPS;
+float dt =0.f;
 
 void Application::run() {
 
@@ -61,24 +63,26 @@ void Application::run() {
     unsigned int previous = SDL_GetTicks();
     unsigned int lag = 0;
 
+   
+
     while (mbRunning) {
 
-        unsigned int current = SDL_GetTicks();
-        unsigned int elapsed = current - previous;
-        previous = current;
-        lag += elapsed;
+        mRenderTimer.reset();
 
         mDisplay->handleEvents();
         
         EventController::getInstance()->sendEvents();
 
-        while (lag >= FPS) {
-            update();
-            lag -= FPS;
-        }
-
+        update(dt);
         refresh();
 
+        dt = (float)mRenderTimer.deltaTime();
+        
+        if (dt < FrameTime) {
+            SDL_Delay((int)(FrameTime - dt));
+        }
+        
+        //mRenderTimer.reset();
     }
 
     uninit();

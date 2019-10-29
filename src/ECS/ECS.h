@@ -39,7 +39,7 @@ public:
     Entity *entity;
 
     virtual void init() {}
-    virtual void update() {}
+    virtual void update(float dt) {}
     virtual void draw() {}
 
     virtual ~Component() {}
@@ -54,10 +54,10 @@ private:
     ComponentBitSet componentBitSet;
 
 public:
-    void update()
+    void update(float dt)
     {
         for (auto &c : components)
-            c->update();
+            c->update(dt);
     }
 
     void draw()
@@ -106,9 +106,9 @@ private:
 
 public:
 
-    void update() {
+    void update(float dt) {
         for (auto& e : entities) {
-            e->update();
+            e->update(dt);
         }
     }
 

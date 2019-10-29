@@ -24,9 +24,9 @@ public:
         ypos = y;
     }
 
-    void update() override {
 
-        xpos += dir * .05f;
+    void update(float dt) override {
+        xpos += dir * dt;
 
         if (xpos > 800)
             dir = -1.f;

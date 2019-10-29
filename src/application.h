@@ -30,7 +30,7 @@ public:
 
 private:
 
-    void update();
+    void update(float dt);
 
     bool init();
 

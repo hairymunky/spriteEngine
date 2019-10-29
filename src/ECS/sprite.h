@@ -40,7 +40,7 @@ public:
 
     }
 
-    void update() override {
+    void update(float dt) override {
 
         dst.x = transform->x();
         dst.y = transform->y();
