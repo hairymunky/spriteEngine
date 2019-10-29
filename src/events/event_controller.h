@@ -11,8 +11,8 @@
 // This should be done every frame (ideally).
 //////////////////////////////////////////////////
 class EventController {
-    std::vector<std::shared_ptr<Subscriber>> mSubscribers;
-    std::queue<std::shared_ptr<Event>> mEvents;
+    std::vector<Subscriber*> mSubscribers;
+    std::queue<Event*> mEvents;
 
     EventController();
 
@@ -30,13 +30,13 @@ class EventController {
     void showEvents();
 #endif 
 
-    void requestEvent(Event::EventType type, std::shared_ptr<Handler> who);
-    void unrequestEvent(Event::EventType type, std::shared_ptr<Handler> who);
-    void unrequestAllEvents(std::shared_ptr<Handler> who);
+    void requestEvent(Event::EventType type, Handler* who);
+    void unrequestEvent(Event::EventType type, Handler* who);
+    void unrequestAllEvents(Handler* who);
 
     bool sendEvents();
 
-    void addEventToQueue(std::shared_ptr<Event> ev);
+    void addEventToQueue(Event* ev);
 };
 
 #endif //!EVENT_CONTROLLER_H

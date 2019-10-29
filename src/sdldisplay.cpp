@@ -3,12 +3,12 @@
 #include "events/event_controller.h"
 #include <cstdio>
 
-void SDLDisplay::sendEvent(std::shared_ptr<Event> ev)  {
+void SDLDisplay::sendEvent(Event* ev)  {
 
     EventController::getInstance()->addEventToQueue(ev);
 }
 
-SDLDisplay::SDLDisplay(/*Application* app*/) : mWidth(0), mHeight(0) {
+SDLDisplay::SDLDisplay() : mWidth(0), mHeight(0) {
     mpWindow = nullptr;
     mpRenderer = nullptr;
 }
@@ -77,7 +77,7 @@ void SDLDisplay::handleEvents() {
     while (SDL_PollEvent(&evt)) {
         if (evt.type == SDL_QUIT) {
             // Handle Quit event...
-            std::shared_ptr<Event> ev = std::make_shared<WindowCloseEvent>();
+            Event* ev = new WindowCloseEvent();
             sendEvent(ev);
         }
     }

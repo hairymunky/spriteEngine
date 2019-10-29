@@ -4,10 +4,10 @@
 #include "ECS/ECS.h"
 #include "ECS/transform.h"
 #include "texture_manager.h"
+#include "application.h"
 #include <SDL2/SDL.h>
 #include <string>
 
-extern std::shared_ptr<Application> SP_APP;
 
 class SpriteComponent : public Component
 {
@@ -22,7 +22,7 @@ public:
     SpriteComponent(std::string filename, std::string id) {
 
         if (!TextureManager::getInstance()->load(filename, id,
-        SP_APP->getDisplay()->getRenderer())) {
+        Application::getInstance()->getDisplay()->getRenderer())) {
             printf("Error loading texture: %s\n", filename.c_str());
         }
 
@@ -52,7 +52,7 @@ public:
         TextureManager::getInstance()->draw(
             textureID, dst.x, dst.y,
             dst.w, dst.h,
-            SP_APP->getDisplay()->getRenderer()
+            Application::getInstance()->getDisplay()->getRenderer()
         );
     }
 

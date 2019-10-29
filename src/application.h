@@ -12,13 +12,12 @@ class Application : public Handler
 
 public:
     
-    // static Application* getInstance(); 
-    // static void destroy();
-    Application();
+    static Application* getInstance(); 
+    static void destroy();
 
     virtual ~Application();
 
-    void run();
+    int run();
 
     void quit() { mbRunning = false; }
 
@@ -26,9 +25,11 @@ public:
 
     std::string name() override { return "Application"; }
     
-    virtual void receiveEvent(std::shared_ptr<Event> ev) override;
+    virtual void receiveEvent(Event* ev) override;
 
 private:
+
+    Application();    
 
     void update(float dt);
 
@@ -40,6 +41,8 @@ private:
 
     bool mbRunning { false };
 
+
+    static Application* spInstance;
     SDLDisplay* mDisplay;
     Manager     mManager;
     Timer       mRenderTimer;

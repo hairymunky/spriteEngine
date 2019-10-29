@@ -18,7 +18,7 @@ public:
     void uninit();
     void handleEvents();
     void clear();
-    void sendEvent(std::shared_ptr<Event> ev) override;
+    void sendEvent(Event* ev) override;
     std::string name() override { return "SDLDisplay"; }
 
     SDL_Window *getWindow() const { return mpWindow; }
@@ -28,7 +28,7 @@ private:
     SDL_Window *mpWindow;
     SDL_Renderer *mpRenderer;
     int mWidth, mHeight;
-    // Application *mApp;
+
 };
 
 #endif // !SDLDISPLAY_H

@@ -6,7 +6,22 @@
 #include "ECS/components.h"
 
 
-extern std::shared_ptr<Application> SP_APP;
+Application* Application::spInstance = nullptr;
+
+Application* Application::getInstance() {
+
+    if (spInstance == nullptr)
+        spInstance = new Application();
+
+    return spInstance;
+}
+
+void Application::destroy() {
+
+    delete spInstance;
+    spInstance = nullptr;
+}
+
 Manager manager;
 auto& newPlayer(manager.addEntity());
 
@@ -15,7 +30,11 @@ Application::Application()  {}
 
 Application::~Application() {}
 
-void Application::uninit() {}
+void Application::uninit() {
+
+    EventController::getInstance()->destroy();
+    
+}
 
 bool Application::init() {
 
@@ -24,7 +43,7 @@ bool Application::init() {
     if (!mDisplay->init(800,600))
         return false;
 
-    EventController::getInstance()->requestEvent(Event::EventType::WINDOW_CLOSE, SP_APP);
+    EventController::getInstance()->requestEvent(Event::EventType::WINDOW_CLOSE, this);
 
 
     // Testing ECS
@@ -56,14 +75,14 @@ float FPS = 60.f;
 float FrameTime = 1000/FPS;
 float dt =0.f;
 
-void Application::run() {
+int Application::run() {
 
-    mbRunning = init(); // falls through on error
+    if (!init()) {
+        return EXIT_FAILURE;
+    }
 
-    unsigned int previous = SDL_GetTicks();
-    unsigned int lag = 0;
-
-   
+    mbRunning = true; 
+  
 
     while (mbRunning) {
 
@@ -87,9 +106,11 @@ void Application::run() {
 
     uninit();
 
+    return EXIT_SUCCESS;
+
 }
 
-void Application::receiveEvent(std::shared_ptr<Event> ev) {
+void Application::receiveEvent(Event* ev) {
 
     if (ev->type() == Event::EventType::WINDOW_CLOSE) {
         quit();

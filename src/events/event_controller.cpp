@@ -17,7 +17,20 @@ void EventController::destroy() {
 
 EventController::EventController() {}
 
-EventController::~EventController() {}
+EventController::~EventController() {
+    // delete all pointers!
+    for (auto s : mSubscribers) {
+        delete s->handler;
+        s->handler == nullptr;
+    }
+
+    mSubscribers.clear();
+
+    while (!mEvents.empty()) {
+
+        mEvents.pop();
+    }
+}
 
 
 
@@ -37,13 +50,13 @@ void EventController::showEvents() {
 }
 #endif // DEBUG
 
-void EventController::requestEvent(Event::EventType type, std::shared_ptr<Handler> who) {
+void EventController::requestEvent(Event::EventType type, Handler* who) {
 
-    std::shared_ptr<Subscriber> sub = std::make_shared<Subscriber>(type, who);
+    Subscriber* sub = new Subscriber(type, who);
     mSubscribers.push_back(sub);
 }
 
-void EventController::unrequestEvent(Event::EventType type, std::shared_ptr<Handler> who) {
+void EventController::unrequestEvent(Event::EventType type, Handler* who) {
     
     for (auto sub : mSubscribers) {
         if (sub->handler == who && sub->eventType == type) {
@@ -53,17 +66,18 @@ void EventController::unrequestEvent(Event::EventType type, std::shared_ptr<Hand
 }
 
 
-void EventController::unrequestAllEvents(std::shared_ptr<Handler> who) {
+void EventController::unrequestAllEvents(Handler* who) {
     
     for (auto sub : mSubscribers) {
         if (sub->handler == who) {
             sub->eventType = Event::EventType::DEACTIVATED;
+            delete sub->handler;
         }
     }
 }
 
 
-void EventController::addEventToQueue(std::shared_ptr<Event> ev) {
+void EventController::addEventToQueue(Event* ev) {
 
     mEvents.push(ev);
 }
@@ -76,7 +90,7 @@ bool EventController::sendEvents() {
 
     while (!mEvents.empty()) {
 
-        std::shared_ptr<Event> ev = mEvents.front();
+        Event* ev = mEvents.front();
 
         for (auto sub : mSubscribers) {
             if (sub->eventType == ev->type()) {

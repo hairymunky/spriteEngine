@@ -15,7 +15,7 @@ class Handler
 public:
     virtual ~Handler() {}
 
-    virtual void receiveEvent(std::shared_ptr<Event> ev) = 0;
+    virtual void receiveEvent(Event* ev) = 0;
     virtual std::string name() = 0;
 };
 
@@ -30,9 +30,9 @@ class Subscriber
 public:
     ~Subscriber() {}
     Event::EventType eventType;
-    std::shared_ptr<Handler> handler;
+    Handler* handler;
 
-    Subscriber(Event::EventType et, std::shared_ptr<Handler> who)
+    Subscriber(Event::EventType et, Handler* who)
         : eventType(et), handler(who) {}
 };
 
@@ -46,7 +46,7 @@ class Publisher
 {
 public:
     virtual ~Publisher() {}
-    virtual void sendEvent(std::shared_ptr<Event> ev) = 0;
+    virtual void sendEvent(Event* ev) = 0;
     virtual std::string name() = 0;
 };
 
