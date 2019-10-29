@@ -5,6 +5,7 @@ class SDLDisplay;
 
 #include "events/event_controller.h"
 #include "ECS/ECS.h"
+#include "timer.h"
 
 class Application : public Handler
 {
@@ -40,7 +41,8 @@ private:
     bool mbRunning { false };
 
     SDLDisplay* mDisplay;
-    Manager mManager;
+    Manager     mManager;
+    Timer       mRenderTimer;
 };
 
 #endif // APPLICATION_H
