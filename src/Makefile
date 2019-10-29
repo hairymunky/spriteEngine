@@ -1,7 +1,7 @@
 OBJS =  timer.cpp events/event_controller.cpp texture_manager.cpp sdldisplay.cpp application.cpp main.cpp
 CC = g++
 INCLUDES = -I.
-CFLAGS = -D_DEBUG -std=c++17
+CFLAGS = -D_DEBUG -std=c++17 -g
 LIBS = -lSDL2 -lSDL2_image
 PROGNAME = sandbox 
 

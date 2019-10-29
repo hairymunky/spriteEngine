@@ -28,7 +28,7 @@ public:
     void update(float dt) override {
         xpos += dir * dt;
 
-        if (xpos > 800)
+        if (xpos > 320-32)
             dir = -1.f;
 
         if (xpos < 0) 

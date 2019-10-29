@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Checking for leaks..."
+rm memcheck.txt
+valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --verbose --log-file=memcheck.txt ./$1

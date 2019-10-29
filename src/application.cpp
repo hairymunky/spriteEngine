@@ -13,9 +13,23 @@ auto& newPlayer(manager.addEntity());
 Application::Application()  {}
 
 
-Application::~Application() {}
+Application::~Application() {
+}
 
-void Application::uninit() {}
+void Application::uninit() {
+
+    EventController::getInstance()->unrequestAllEvents(SP_APP);
+
+    // Delete all our Singletons
+    TextureManager::getInstance()->destroy();
+    EventController::getInstance()->destroy();
+
+    mDisplay->uninit();
+
+    delete mDisplay;
+    mDisplay = nullptr;
+
+}
 
 bool Application::init() {
 
@@ -24,6 +38,8 @@ bool Application::init() {
     if (!mDisplay->init(800,600))
         return false;
 
+    SDL_RenderSetLogicalSize(mDisplay->getRenderer(), 320, 192);
+    
     EventController::getInstance()->requestEvent(Event::EventType::WINDOW_CLOSE, SP_APP);
 
 
